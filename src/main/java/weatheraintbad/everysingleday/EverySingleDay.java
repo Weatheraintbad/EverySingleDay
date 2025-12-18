@@ -44,7 +44,7 @@ public class EverySingleDay implements ModInitializer {
             new DailyEffect("night_vision", "熬夜", "永久夜视效果", 0.0f),
             new DailyEffect("fire_immunity", "玩火", "免疫火焰伤害", 0.0f),
             new DailyEffect("water_breathing", "潜水", "水下呼吸+游泳速度", 0.0f),
-            new DailyEffect("double_jump", "蹦蹦跳跳", "可以在空中跳跃两次", 0.0f),
+            // double_jump 条目已删除
             new DailyEffect("vampire", "吸血鬼", "攻击敌人时回复生命", 0.3f),
             new DailyEffect("thorns", "战斗", "反弹敌人伤害的50%", 0.5f),
             new DailyEffect("treasure_hunter", "寻宝", "发现隐藏宝箱和稀有矿石", 0.0f),
@@ -82,15 +82,6 @@ public class EverySingleDay implements ModInitializer {
 
     // 新增：特殊效果状态管理
     private static final Map<UUID, playerEffectState> playerEffectStates = new HashMap<>();
-
-    public static class PlayerEffectState {
-        public boolean isShadowStepping = false;
-        public boolean isSleepwalker = false;
-        public boolean isConfused = false;
-        public int nextSleepwalkCheck = 0;
-        public int nextConfusionCheck = 0;
-        public BlockPos lastSleepPos = null;
-    }
 
     public static playerEffectState getPlayerEffectState(ServerPlayerEntity player) {
         return playerEffectStates.computeIfAbsent(player.getUuid(), uuid -> new playerEffectState());
