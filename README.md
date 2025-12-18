@@ -5,7 +5,7 @@
 ### 为我的世界添加了新的系统：朝晖夕趣！
 ### Adds a new system for Minecrafe: Every Single Day!
 
-### 朝晖夕趣为游戏添加了每日运势，游戏内每一天早晨都会赋予玩家一正一负两个随机特殊效果。
+### 朝晖夕趣为游戏添加了每日运势，游戏内每天早晨都会赋予玩家一正一负的随机效果。
 ### Every Single Day adds daily fortune to the game, and every morning in the game will give players two random special effects, one positive and one negative.
 </div>
 
