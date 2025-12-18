@@ -1,15 +1,15 @@
-<img width="1392" height="394" alt="screenshot (10)" src="https://github.com/user-attachments/assets/761f007d-01b3-4b52-a135-b365b61173f8" />
+<img width="1392" height="393" alt="screenshot (11)" src="https://github.com/user-attachments/assets/5b5319e9-e4f5-4ab0-b054-59bdcff28d3c" />
 
 <div align="center"> 
 
-### 为我的世界添加了新的系统：朝运夕趣！
+### 为我的世界添加了新的系统：每日运势！
 
-### Adds a new system for Minecrafe: Every Single Day!
+### Adds a new system for Minecraft: Every Single Day!
 
 <img width="350" height="131" alt="44a8b3889f6a039288abdae4db8a1ce2" src="https://github.com/user-attachments/assets/c6358ee5-7692-449e-b6ef-8c44fa120dda" />
 
-### 为游戏添加了每日运势，游戏内每天早晨都会赋予玩家一正一负的随机效果。
-### Adds daily fortune to the game, and every morning in the game will give players two random special effects, one positive and one negative.
+### 游戏内每天早晨都会赋予玩家一正一负的随机效果，并于聊天栏显示具体信息。
+### Every morning in the game, players will be given a random effect of one positive and one negative, and specific information will be displayed in the chat bar.
 
 </div>
 
