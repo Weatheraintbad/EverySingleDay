@@ -1,4 +1,4 @@
-<img width="2230" height="638" alt="screenshot (8)" src="https://github.com/user-attachments/assets/29d573dd-4916-41ac-83b4-a9e3727dcee4" />
+<img width="1390" height="391" alt="screenshot (9)" src="https://github.com/user-attachments/assets/8b2f62c0-50a4-4887-8c6b-8e878ae1d7c2" />
 
 <div align="center"> 
 
@@ -6,9 +6,7 @@
 
 ### Adds a new system for Minecrafe: Every Single Day!
 
-<img width="245" height="92" alt="44a8b3889f6a039288abdae4db8a1ce2" src="https://github.com/user-attachments/assets/c6358ee5-7692-449e-b6ef-8c44fa120dda" />
-
-<img width="500" height="92" alt="4de803a912386b8b031b8ffe5716bf5bac" src="https://github.com/user-attachments/assets/52321008-691c-41fa-9aa0-992ee6177d59" />
+<img width="350" height="131" alt="44a8b3889f6a039288abdae4db8a1ce2" src="https://github.com/user-attachments/assets/c6358ee5-7692-449e-b6ef-8c44fa120dda" />
 
 ### 为游戏添加了每日运势，游戏内每天早晨都会赋予玩家一正一负的随机效果。
 ### Adds daily fortune to the game, and every morning in the game will give players two random special effects, one positive and one negative.
