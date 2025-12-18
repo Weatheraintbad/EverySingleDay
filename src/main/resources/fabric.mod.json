@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "everysingleday",
+  "version": "1.0.0",
+  "name": "Every Single Day",
+  "description": "每一天都是新的一天！",
+  "authors": [
+    "Weatheraintbad"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Weatheraintbad/everysingleday",
+    "sources": "https://github.com/Weatheraintbad/everysingleday"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/everysingleday/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "weatheraintbad.everysingleday.EverySingleDay"
+    ]
+  },
+  "mixins": [
+    "everysingleday.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "minecraft": "~1.20.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+}
