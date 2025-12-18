@@ -8,10 +8,10 @@
 
 <img width="350" height="131" alt="44a8b3889f6a039288abdae4db8a1ce2" src="https://github.com/user-attachments/assets/c6358ee5-7692-449e-b6ef-8c44fa120dda" />
 
+</div>
+
 ### 游戏内每天早晨都会赋予玩家一正一负的随机效果，并于聊天栏显示具体信息。
 ### Every morning in the game, players will be given a random effect of one positive and one negative, and specific information will be displayed in the chat bar.
-
-</div>
 
   ### 效果一览
   ### Effect overview
