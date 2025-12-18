@@ -1,20 +1,24 @@
-<img width="2034" height="556" alt="screenshot (6)" src="https://github.com/user-attachments/assets/88594260-7cd8-42ce-86bc-d83a1df0c91c" />
+<img width="2230" height="638" alt="screenshot (8)" src="https://github.com/user-attachments/assets/29d573dd-4916-41ac-83b4-a9e3727dcee4" />
 
 <div align="center"> 
 
 ### 为我的世界添加了新的系统：朝晖夕趣！
+
 ### Adds a new system for Minecrafe: Every Single Day!
 
-### 朝晖夕趣为游戏添加了每日运势，游戏内每天早晨都会赋予玩家一正一负的随机效果。
-### Every Single Day adds daily fortune to the game, and every morning in the game will give players two random special effects, one positive and one negative.
-</div>
+<img width="245" height="92" alt="44a8b3889f6a039288abdae4db8a1ce2" src="https://github.com/user-attachments/assets/c6358ee5-7692-449e-b6ef-8c44fa120dda" />
 
-<div align="center">
+<img width="500" height="92" alt="4de803a912386b8b031b8ffe5716bf5bac" src="https://github.com/user-attachments/assets/52321008-691c-41fa-9aa0-992ee6177d59" />
+
+### 为游戏添加了每日运势，游戏内每天早晨都会赋予玩家一正一负的随机效果。
+### Adds daily fortune to the game, and every morning in the game will give players two random special effects, one positive and one negative.
+
+</div>
 
   ### 效果一览
   ### Effect overview
   
-| 适宜/ Suitable for      | 效果/ Effect                                        | ID                 |
+| 宜/ Suitable for      | 效果/ Effect                                        | ID                 |
 | --------------------- | ------------------------------------------------------- | ------------------ |
 | 下矿 / Mining           | 矿物爆率+50% / +50% mineral drop rate                      | `mining`           |
 | 种植 / Farming          | 作物生长速度+50% / +50% crop growth speed                     | `farming`          |
@@ -58,5 +62,8 @@
 | 亲近自然 / Nature bonding | 动物主动攻击你 / Animals actively attack you                 | `hated_by_animals` |
 | 蹦蹦跳跳 / Hopping        | 跳跃高度-50%摔落伤害+50% / –50% jump height, +50% fall damage | `gravity_well`     |
 
-</div>
+### 目前支持的版本：
 
+Fabric 1.20.1（需要 Fabric Loader 0.16.14 以及上版本，Fabric API任意版本）。
+
+(requires Fabric Loader 0.16.14 or higher, any version of Fabric API).
