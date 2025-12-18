@@ -54,11 +54,7 @@ public class EffectsManager {
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.DOLPHINS_GRACE, 24000, 1));
                 break;
 
-            case "double_jump":
-                player.sendMessage(Text.literal("🦘 二段跳激活：可以在空中跳跃两次！")
-                        .formatted(Formatting.GREEN));
-                break;
-
+            /* 二段跳已删除 */
             case "vampire":
                 player.sendMessage(Text.literal("🧛 吸血鬼之触：攻击敌人时回复生命！")
                         .formatted(Formatting.DARK_RED));
