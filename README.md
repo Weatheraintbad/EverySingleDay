@@ -1,8 +1,8 @@
-<img width="1390" height="391" alt="screenshot (9)" src="https://github.com/user-attachments/assets/8b2f62c0-50a4-4887-8c6b-8e878ae1d7c2" />
+<img width="1392" height="394" alt="screenshot (10)" src="https://github.com/user-attachments/assets/761f007d-01b3-4b52-a135-b365b61173f8" />
 
 <div align="center"> 
 
-### 为我的世界添加了新的系统：朝晖夕趣！
+### 为我的世界添加了新的系统：朝运夕趣！
 
 ### Adds a new system for Minecrafe: Every Single Day!
 
