@@ -29,52 +29,51 @@ public class EverySingleDay implements ModInitializer {
     public static final String MOD_ID = "everysingleday";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
-    /* ---------- 效果列表 ---------- */
+    /* ---------- 效果列表（全部使用语言 key） ---------- */
     public static final List<DailyEffect> POSITIVE_EFFECTS = Arrays.asList(
-            new DailyEffect("mining", "下矿", "矿物爆率提升50%", 0.5f),
-            new DailyEffect("farming", "种植", "作物生长速度提升50%", 0.5f),
-            new DailyEffect("combat", "战斗", "攻击力提升20%", 0.2f),
-            new DailyEffect("speed", "运动", "移动速度提升30%", 0.3f),
-            new DailyEffect("health", "休养", "生命恢复", 1.0f),
-            new DailyEffect("luck", "碰运气", "钓鱼运气好", 0.0f),
-            new DailyEffect("phoenix", "涅槃", "死亡时重生并爆炸", 0.0f),
-            new DailyEffect("magnet", "收集", "自动吸引附近物品", 8.0f),
-            new DailyEffect("night_vision", "熬夜", "永久夜视效果", 0.0f),
-            new DailyEffect("fire_immunity", "玩火", "免疫火焰伤害", 0.0f),
-            new DailyEffect("water_breathing", "潜水", "水下呼吸+游泳速度", 0.0f),
-            new DailyEffect("vampire", "吸血鬼", "攻击敌人时回复生命", 0.3f),
-            new DailyEffect("thorns", "战斗", "反弹敌人伤害的50%", 0.5f),
-            new DailyEffect("treasure_hunter", "寻宝", "发现隐藏宝箱和稀有矿石", 0.0f),
-            new DailyEffect("time_master", "时间掌控", "时间流逝速度减半", 0.0f),
-            new DailyEffect("super_craft", "合成", " 合成时有几率双倍产出", 0.3f),
-            new DailyEffect("animal_whisperer", "亲近自然", "动物主动跟随并保护你", 0.0f),
-            new DailyEffect("shadow_step", "偷袭", "潜行时隐身+速度提升", 0.0f),
-            new DailyEffect("elemental_shield", "战斗", "周期性获得随机元素保护", 0.0f)
+            new DailyEffect("mining", "everysingleday.suitable.mining", "everysingleday.desc.mining", 0.5f),
+            new DailyEffect("farming", "everysingleday.suitable.farming", "everysingleday.desc.farming", 0.5f),
+            new DailyEffect("combat", "everysingleday.suitable.combat", "everysingleday.desc.combat", 0.2f),
+            new DailyEffect("speed", "everysingleday.suitable.speed", "everysingleday.desc.speed", 0.3f),
+            new DailyEffect("health", "everysingleday.suitable.health", "everysingleday.desc.health", 1.0f),
+            new DailyEffect("luck", "everysingleday.suitable.luck", "everysingleday.desc.luck", 0.0f),
+            new DailyEffect("phoenix", "everysingleday.suitable.phoenix", "everysingleday.desc.phoenix", 0.0f),
+            new DailyEffect("magnet", "everysingleday.suitable.magnet", "everysingleday.desc.magnet", 8.0f),
+            new DailyEffect("night_vision", "everysingleday.suitable.night_vision", "everysingleday.desc.night_vision", 0.0f),
+            new DailyEffect("fire_immunity", "everysingleday.suitable.fire_immunity", "everysingleday.desc.fire_immunity", 0.0f),
+            new DailyEffect("water_breathing", "everysingleday.suitable.water_breathing", "everysingleday.desc.water_breathing", 0.0f),
+            new DailyEffect("vampire", "everysingleday.suitable.vampire", "everysingleday.desc.vampire", 0.3f),
+            new DailyEffect("thorns", "everysingleday.suitable.thorns", "everysingleday.desc.thorns", 0.5f),
+            new DailyEffect("treasure_hunter", "everysingleday.suitable.treasure_hunter", "everysingleday.desc.treasure_hunter", 0.0f),
+            new DailyEffect("time_master", "everysingleday.suitable.time_master", "everysingleday.desc.time_master", 0.0f),
+            new DailyEffect("super_craft", "everysingleday.suitable.super_craft", "everysingleday.desc.super_craft", 0.3f),
+            new DailyEffect("animal_whisperer", "everysingleday.suitable.animal_whisperer", "everysingleday.desc.animal_whisperer", 0.0f),
+            new DailyEffect("shadow_step", "everysingleday.suitable.shadow_step", "everysingleday.desc.shadow_step", 0.0f),
+            new DailyEffect("elemental_shield", "everysingleday.suitable.elemental_shield", "everysingleday.desc.elemental_shield", 0.0f)
     );
 
     public static final List<DailyEffect> NEGATIVE_EFFECTS = Arrays.asList(
-            new DailyEffect("water", "下水", "在水中速度减慢50%", -0.5f),
-            new DailyEffect("hunger", "运动", "饥饿速度提升3倍", -1.0f),
-            new DailyEffect("weakness", "战斗", "攻击力降低20%", -0.2f),
-            new DailyEffect("slowness", "运动", "移动速度减慢20%", -0.2f),
-            new DailyEffect("mining_fatigue", "下矿", "挖掘速度减慢30%", -0.3f),
-            new DailyEffect("unluck", "碰运气", "钓鱼运气差", 0.0f),
-            new DailyEffect("explosive_death", "死亡", "死亡时产生爆炸", 0.0f),
-            new DailyEffect("item_magnet", "收集", "无法捡起地面物品", 0.0f),
-            new DailyEffect("sun_allergy", "晒太阳", "白天在阳光下持续受伤", 0.0f),
-            new DailyEffect("noise_maker", "外出", "持续发出声音吸引怪物", 0.0f),
-            new DailyEffect("clumsy", "手持物品", "有概率掉落手持物品", -0.2f),
-            new DailyEffect("sleepwalker", "睡觉", "睡觉时随机传送到附近", 0.0f),
-            new DailyEffect("broken_armor", "战斗", "装备耐久消耗速度提升2倍", -1.0f),
-            new DailyEffect("confusion", "外出", "方向感错乱（视角旋转）", 0.0f),
-            new DailyEffect("money_curse", "死亡", "死亡时掉落双倍经验", -1.0f),
-            new DailyEffect("storm_maker", "外出", "持续吸引闪电", 0.0f),
-            new DailyEffect("fragile", "战斗", "受到的伤害提高50%", -0.5f),
-            new DailyEffect("hated_by_animals", "亲近自然", "动物将会主动攻击你", 0.0f),
-            new DailyEffect("gravity_well", "蹦蹦跳跳", "跳跃高度降低50%摔落伤害增加50%", -0.5f)
+            new DailyEffect("water", "everysingleday.suitable.water", "everysingleday.desc.water", -0.5f),
+            new DailyEffect("hunger", "everysingleday.suitable.hunger", "everysingleday.desc.hunger", -1.0f),
+            new DailyEffect("weakness", "everysingleday.suitable.weakness", "everysingleday.desc.weakness", -0.2f),
+            new DailyEffect("slowness", "everysingleday.suitable.slowness", "everysingleday.desc.slowness", -0.2f),
+            new DailyEffect("mining_fatigue", "everysingleday.suitable.mining_fatigue", "everysingleday.desc.mining_fatigue", -0.3f),
+            new DailyEffect("unluck", "everysingleday.suitable.unluck", "everysingleday.desc.unluck", 0.0f),
+            new DailyEffect("explosive_death", "everysingleday.suitable.explosive_death", "everysingleday.desc.explosive_death", 0.0f),
+            new DailyEffect("item_magnet", "everysingleday.suitable.item_magnet", "everysingleday.desc.item_magnet", 0.0f),
+            new DailyEffect("sun_allergy", "everysingleday.suitable.sun_allergy", "everysingleday.desc.sun_allergy", 0.0f),
+            new DailyEffect("noise_maker", "everysingleday.suitable.noise_maker", "everysingleday.desc.noise_maker", 0.0f),
+            new DailyEffect("clumsy", "everysingleday.suitable.clumsy", "everysingleday.desc.clumsy", -0.2f),
+            new DailyEffect("sleepwalker", "everysingleday.suitable.sleepwalker", "everysingleday.desc.sleepwalker", 0.0f),
+            new DailyEffect("broken_armor", "everysingleday.suitable.broken_armor", "everysingleday.desc.broken_armor", -1.0f),
+            new DailyEffect("confusion", "everysingleday.suitable.confusion", "everysingleday.desc.confusion", 0.0f),
+            new DailyEffect("money_curse", "everysingleday.suitable.money_curse", "everysingleday.desc.money_curse", -1.0f),
+            new DailyEffect("storm_maker", "everysingleday.suitable.storm_maker", "everysingleday.desc.storm_maker", 0.0f),
+            new DailyEffect("fragile", "everysingleday.suitable.fragile", "everysingleday.desc.fragile", -0.5f),
+            new DailyEffect("hated_by_animals", "everysingleday.suitable.hated_by_animals", "everysingleday.desc.hated_by_animals", 0.0f),
+            new DailyEffect("gravity_well", "everysingleday.suitable.gravity_well", "everysingleday.desc.gravity_well", -0.5f)
     );
 
-    /* ---------- 玩家数据 ---------- */
     public static final Map<UUID, PlayerDailyEffects> playerEffects = new HashMap<>();
     public static final Map<UUID, PlayerEffectState> playerEffectStates = new HashMap<>();
 
@@ -83,16 +82,20 @@ public class EverySingleDay implements ModInitializer {
     }
 
     public static void applyEffectsStatic(ServerPlayerEntity target, PlayerDailyEffects data) {
+        INSTANCE.applyEffects(target, data);
     }
-
     public static void clearOldEffectsStatic(ServerPlayerEntity target) {
+        INSTANCE.clearOldEffects(target);
+    }
+    public static void generateNewDailyEffectsStatic(ServerPlayerEntity target, long day) {
+        INSTANCE.generateNewDailyEffects(target, day);
     }
 
-    public static void generateNewDailyEffectsStatic(ServerPlayerEntity target, long day) {
-    }
+    public static EverySingleDay INSTANCE;
 
     @Override
     public void onInitialize() {
+        INSTANCE = this;
         LOGGER.info("Every Single Day mod initialized!");
 
         ServerTickEvents.START_SERVER_TICK.register(this::onServerTick);
@@ -105,14 +108,11 @@ public class EverySingleDay implements ModInitializer {
         ServerPlayConnectionEvents.DISCONNECT.register((handler, server) ->
                 playerEffectStates.remove(handler.getPlayer().getUuid()));
 
-        /* 注册指令 */
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
                 EverySingleDayCommand.register(dispatcher));
     }
 
-    /* ------------------------------------------------------------------ */
-    /* ---------------------  以下为业务逻辑，包级可见  --------------------- */
-    /* ------------------------------------------------------------------ */
+    /* ===================== 业务逻辑 ===================== */
 
     void onServerTick(MinecraftServer server) {
         if (server.getTicks() % 20 == 0) {
@@ -163,21 +163,29 @@ public class EverySingleDay implements ModInitializer {
         player.clearStatusEffects();
         EffectsManager.applyPositiveEffect(player, data.positiveEffect);
         EffectsManager.applyNegativeEffect(player, data.negativeEffect);
-        player.sendMessage(Text.literal("✨ 今日效果已激活！")
-                .formatted(Formatting.AQUA, Formatting.BOLD));
+        player.sendMessage(Text.translatable("everysingleday.daily.activated")
+                .formatted(Formatting.AQUA, Formatting.BOLD), false);
     }
 
+    /* 每日提示：完全走语言文件 */
     private void sendDailyEffectsMessage(ServerPlayerEntity player, PlayerDailyEffects effects, long day) {
-        player.sendMessage(Text.literal("=== 每日运势 ===").formatted(Formatting.GOLD, Formatting.BOLD));
-        player.sendMessage(Text.literal("游戏日: " + day).formatted(Formatting.YELLOW));
-        player.sendMessage(Text.literal("宜: " + effects.positiveEffect.suitable +
-                " (" + effects.positiveEffect.description + ")").formatted(Formatting.GREEN));
-        player.sendMessage(Text.literal("不宜: " + effects.negativeEffect.suitable +
-                " (" + effects.negativeEffect.description + ")").formatted(Formatting.RED));
-        player.sendMessage(Text.literal("===============").formatted(Formatting.GOLD));
+        player.sendMessage(Text.translatable("everysingleday.daily.title")
+                .formatted(Formatting.GOLD, Formatting.BOLD), false);
+        player.sendMessage(Text.translatable("everysingleday.daily.day", day)
+                .formatted(Formatting.YELLOW), false);
+        player.sendMessage(Text.translatable("everysingleday.daily.suitable",
+                        effects.positiveEffect.getSuitableText(),
+                        effects.positiveEffect.getDescText())
+                .formatted(Formatting.GREEN), false);
+        player.sendMessage(Text.translatable("everysingleday.daily.unsuitable",
+                        effects.negativeEffect.getSuitableText(),
+                        effects.negativeEffect.getDescText())
+                .formatted(Formatting.RED), false);
+        player.sendMessage(Text.translatable("everysingleday.daily.separator")
+                .formatted(Formatting.GOLD), false);
     }
 
-    /* -------------------- 以下为各种特殊效果处理 -------------------- */
+    /* -------------------- 各种特殊效果处理 -------------------- */
     void handlePlayerActions(ServerPlayerEntity player) {
         PlayerDailyEffects effects = playerEffects.get(player.getUuid());
         if (effects == null) return;
@@ -188,12 +196,12 @@ public class EverySingleDay implements ModInitializer {
                 state.isShadowStepping = true;
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.INVISIBILITY, Integer.MAX_VALUE, 0, false, false, false));
                 player.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, Integer.MAX_VALUE, 1, false, false, false));
-                player.sendMessage(Text.literal("🌑 你已融入暗影中...").formatted(Formatting.DARK_GRAY), true);
+                player.sendMessage(Text.translatable("everysingleday.shadow_step.on").formatted(Formatting.DARK_GRAY), true);
             } else if (!player.isSneaking() && state.isShadowStepping) {
                 state.isShadowStepping = false;
                 player.removeStatusEffect(StatusEffects.INVISIBILITY);
                 player.removeStatusEffect(StatusEffects.SPEED);
-                player.sendMessage(Text.literal("👤 你从暗影中现身").formatted(Formatting.GRAY), true);
+                player.sendMessage(Text.translatable("everysingleday.shadow_step.off").formatted(Formatting.GRAY), true);
             }
         }
         if ("sleepwalker".equals(effects.negativeEffect.id)) handleSleepwalkerEffect(player, state);
@@ -227,7 +235,7 @@ public class EverySingleDay implements ModInitializer {
             player.requestTeleport(dest.getX() + 0.5, dest.getY(), dest.getZ() + 0.5);
             world.playSound(null, dest, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.PLAYERS, 1, 1);
             player.addStatusEffect(new StatusEffectInstance(StatusEffects.BLINDNESS, 60, 0));
-            player.sendMessage(Text.literal("😴 梦游了！你醒来发现在一个陌生的地方").formatted(Formatting.DARK_PURPLE));
+            player.sendMessage(Text.translatable("everysingleday.sleepwalker.teleport").formatted(Formatting.DARK_PURPLE));
         }
     }
 
@@ -245,7 +253,7 @@ public class EverySingleDay implements ModInitializer {
         float pitch = Math.max(-90, Math.min(90, (new Random().nextFloat() - 0.5f) * 120));
         player.setYaw(yaw);
         player.setPitch(pitch);
-        player.sendMessage(Text.literal("🌀 方向感突然错乱！").formatted(Formatting.LIGHT_PURPLE), true);
+        player.sendMessage(Text.translatable("everysingleday.confusion.spin").formatted(Formatting.LIGHT_PURPLE), true);
         player.addStatusEffect(new StatusEffectInstance(StatusEffects.NAUSEA, 80, 0, false, false));
         if (new Random().nextInt(100) < 25) {
             Vec3d off = new Vec3d((new Random().nextDouble() - 0.5) * 8, 0, (new Random().nextDouble() - 0.5) * 8);
@@ -285,7 +293,7 @@ public class EverySingleDay implements ModInitializer {
         if (player.getWorld().isDay() && player.getWorld().isSkyVisible(player.getBlockPos()) && !player.isSpectator()
                 && new Random().nextInt(100) < 2) {
             player.damage(player.getDamageSources().generic(), 1);
-            player.sendMessage(Text.literal("阳光灼烧着你！").formatted(Formatting.YELLOW), true);
+            player.sendMessage(Text.translatable("everysingleday.sun_allergy.damage").formatted(Formatting.YELLOW), true);
         }
     }
 
@@ -315,7 +323,7 @@ public class EverySingleDay implements ModInitializer {
             player.setHealth(player.getMaxHealth() * 0.5f);
             player.getWorld().createExplosion(player, player.getX(), player.getY(), player.getZ(),
                     3, false, World.ExplosionSourceType.MOB);
-            player.sendMessage(Text.literal("凤凰重生！你从灰烬中复活了！").formatted(Formatting.GOLD, Formatting.BOLD));
+            player.sendMessage(Text.translatable("everysingleday.phoenix.resurrect").formatted(Formatting.GOLD, Formatting.BOLD));
         });
     }
 
@@ -324,7 +332,6 @@ public class EverySingleDay implements ModInitializer {
                 5, true, World.ExplosionSourceType.MOB);
     }
 
-    /* -------------------- 小工具 -------------------- */
     private static <T> T randomOf(List<T> list) { return list.get(new Random().nextInt(list.size())); }
 
     /* -------------------- 内部数据类 -------------------- */
@@ -335,10 +342,25 @@ public class EverySingleDay implements ModInitializer {
     }
 
     public static class DailyEffect {
-        public final String id, suitable, description;
+        public final String id;
+        public final String suitableKey;   // 语言 key
+        public final String descKey;       // 语言 key
         public final float multiplier;
-        public DailyEffect(String id, String suitable, String description, float multiplier) {
-            this.id = id; this.suitable = suitable; this.description = description; this.multiplier = multiplier;
+        public Object description;
+
+        public DailyEffect(String id, String suitableKey, String descKey, float multiplier) {
+            this.id = id;
+            this.suitableKey = suitableKey;
+            this.descKey = descKey;
+            this.multiplier = multiplier;
+        }
+
+        /* 实时翻译 */
+        public Text getSuitableText() {
+            return Text.translatable(suitableKey);
+        }
+        public Text getDescText() {
+            return Text.translatable(descKey);
         }
     }
 
