@@ -62,6 +62,8 @@
 
 ### 目前支持的版本：
 
-Fabric 1.20.1（需要 Fabric Loader 0.16.14 以及上版本，Fabric API任意版本）。
+Fabric 1.20.1 ~ 1.20.6（需要 Fabric Loader 0.16.14 以及上版本，Fabric API任意版本）。
 
 (requires Fabric Loader 0.16.14 or higher, any version of Fabric API).
+
+### 模组目前处于开发阶段，存在未修复的bug，部分效果可能不会生效
