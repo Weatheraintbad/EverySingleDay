@@ -31,7 +31,6 @@ public class EverySingleDay implements ModInitializer {
 
     /* ---------- 效果列表（全部使用语言 key） ---------- */
     public static final List<DailyEffect> POSITIVE_EFFECTS = Arrays.asList(
-            new DailyEffect("mining", "everysingleday.suitable.mining", "everysingleday.desc.mining", 0.5f),
             new DailyEffect("farming", "everysingleday.suitable.farming", "everysingleday.desc.farming", 0.5f),
             new DailyEffect("combat", "everysingleday.suitable.combat", "everysingleday.desc.combat", 0.2f),
             new DailyEffect("speed", "everysingleday.suitable.speed", "everysingleday.desc.speed", 0.3f),
@@ -43,11 +42,8 @@ public class EverySingleDay implements ModInitializer {
             new DailyEffect("fire_immunity", "everysingleday.suitable.fire_immunity", "everysingleday.desc.fire_immunity", 0.0f),
             new DailyEffect("water_breathing", "everysingleday.suitable.water_breathing", "everysingleday.desc.water_breathing", 0.0f),
             new DailyEffect("vampire", "everysingleday.suitable.vampire", "everysingleday.desc.vampire", 0.3f),
-            new DailyEffect("thorns", "everysingleday.suitable.thorns", "everysingleday.desc.thorns", 0.5f),
             new DailyEffect("treasure_hunter", "everysingleday.suitable.treasure_hunter", "everysingleday.desc.treasure_hunter", 0.0f),
             new DailyEffect("time_master", "everysingleday.suitable.time_master", "everysingleday.desc.time_master", 0.0f),
-            new DailyEffect("super_craft", "everysingleday.suitable.super_craft", "everysingleday.desc.super_craft", 0.3f),
-            new DailyEffect("animal_whisperer", "everysingleday.suitable.animal_whisperer", "everysingleday.desc.animal_whisperer", 0.0f),
             new DailyEffect("shadow_step", "everysingleday.suitable.shadow_step", "everysingleday.desc.shadow_step", 0.0f),
             new DailyEffect("elemental_shield", "everysingleday.suitable.elemental_shield", "everysingleday.desc.elemental_shield", 0.0f)
     );
@@ -60,18 +56,10 @@ public class EverySingleDay implements ModInitializer {
             new DailyEffect("mining_fatigue", "everysingleday.suitable.mining_fatigue", "everysingleday.desc.mining_fatigue", -0.3f),
             new DailyEffect("unluck", "everysingleday.suitable.unluck", "everysingleday.desc.unluck", 0.0f),
             new DailyEffect("explosive_death", "everysingleday.suitable.explosive_death", "everysingleday.desc.explosive_death", 0.0f),
-            new DailyEffect("item_magnet", "everysingleday.suitable.item_magnet", "everysingleday.desc.item_magnet", 0.0f),
             new DailyEffect("sun_allergy", "everysingleday.suitable.sun_allergy", "everysingleday.desc.sun_allergy", 0.0f),
             new DailyEffect("noise_maker", "everysingleday.suitable.noise_maker", "everysingleday.desc.noise_maker", 0.0f),
-            new DailyEffect("clumsy", "everysingleday.suitable.clumsy", "everysingleday.desc.clumsy", -0.2f),
-            new DailyEffect("sleepwalker", "everysingleday.suitable.sleepwalker", "everysingleday.desc.sleepwalker", 0.0f),
-            new DailyEffect("broken_armor", "everysingleday.suitable.broken_armor", "everysingleday.desc.broken_armor", -1.0f),
             new DailyEffect("confusion", "everysingleday.suitable.confusion", "everysingleday.desc.confusion", 0.0f),
-            new DailyEffect("money_curse", "everysingleday.suitable.money_curse", "everysingleday.desc.money_curse", -1.0f),
-            new DailyEffect("storm_maker", "everysingleday.suitable.storm_maker", "everysingleday.desc.storm_maker", 0.0f),
-            new DailyEffect("fragile", "everysingleday.suitable.fragile", "everysingleday.desc.fragile", -0.5f),
-            new DailyEffect("hated_by_animals", "everysingleday.suitable.hated_by_animals", "everysingleday.desc.hated_by_animals", 0.0f),
-            new DailyEffect("gravity_well", "everysingleday.suitable.gravity_well", "everysingleday.desc.gravity_well", -0.5f)
+            new DailyEffect("storm_maker", "everysingleday.suitable.storm_maker", "everysingleday.desc.storm_maker", 0.0f)
     );
 
     public static final Map<UUID, PlayerDailyEffects> playerEffects = new HashMap<>();
@@ -95,6 +83,15 @@ public class EverySingleDay implements ModInitializer {
 
     @Override
     public void onInitialize() {
+
+        EffectEventListener.register();
+
+        ServerTickEvents.END_WORLD_TICK.register(world -> {
+            if (world instanceof ServerWorld) {          // 拆成两行，兼容 JDK17
+                ServerWorld sw = (ServerWorld) world;
+            }
+        });
+
         INSTANCE = this;
         LOGGER.info("Every Single Day mod initialized!");
 
@@ -114,12 +111,13 @@ public class EverySingleDay implements ModInitializer {
 
     /* ===================== 业务逻辑 ===================== */
 
+    /* ===== 每 tick 业务：状态效果 + + 摔落加成 ===== */
     void onServerTick(MinecraftServer server) {
-        if (server.getTicks() % 20 == 0) {
-            checkDailyReset(server);
-            handleSpecialEffects(server);
-        }
-        server.getPlayerManager().getPlayerList().forEach(this::handlePlayerActions);
+        ServerTickEvents.END_WORLD_TICK.register(world -> {
+            if (world instanceof ServerWorld) {
+                ServerWorld sw = (ServerWorld) world;
+            }
+        });
     }
 
     void checkDailyReset(MinecraftServer server) {
@@ -130,7 +128,7 @@ public class EverySingleDay implements ModInitializer {
         });
     }
 
-    void initializePlayerEffects(ServerPlayerEntity player) {
+    static void initializePlayerEffects(ServerPlayerEntity player) {
         long day = player.getServer().getOverworld().getTimeOfDay() / 24000L;
         PlayerDailyEffects data = new PlayerDailyEffects();
         data.lastDay = day;
@@ -159,7 +157,7 @@ public class EverySingleDay implements ModInitializer {
         state.isConfused = false;
     }
 
-    public void applyEffects(ServerPlayerEntity player, PlayerDailyEffects data) {
+    public static void applyEffects(ServerPlayerEntity player, PlayerDailyEffects data) {
         player.clearStatusEffects();
         EffectsManager.applyPositiveEffect(player, data.positiveEffect);
         EffectsManager.applyNegativeEffect(player, data.negativeEffect);
@@ -168,7 +166,7 @@ public class EverySingleDay implements ModInitializer {
     }
 
     /* 每日提示：完全走语言文件 */
-    private void sendDailyEffectsMessage(ServerPlayerEntity player, PlayerDailyEffects effects, long day) {
+    private static void sendDailyEffectsMessage(ServerPlayerEntity player, PlayerDailyEffects effects, long day) {
         player.sendMessage(Text.translatable("everysingleday.daily.title")
                 .formatted(Formatting.GOLD, Formatting.BOLD), false);
         player.sendMessage(Text.translatable("everysingleday.daily.day", day)
@@ -266,15 +264,20 @@ public class EverySingleDay implements ModInitializer {
         }
     }
 
+    /* ===== 特殊效果：只加状态，不嵌套注册事件 ===== */
     void handleSpecialEffects(MinecraftServer server) {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             PlayerDailyEffects data = playerEffects.get(player.getUuid());
             if (data == null || data.lastDay != server.getOverworld().getTimeOfDay() / 24000L) continue;
-            switch (data.positiveEffect.id) {
-                case "magnet" -> handleMagnetEffect(player);
-                case "sun_allergy" -> handleSunAllergy(player);
-                case "noise_maker" -> handleNoiseMaker(player);
-                case "storm_maker" -> handleStormMaker(player);
+
+            // 1. 状态效果
+            if ("magnet".equals(data.positiveEffect.id)) handleMagnetEffect(player);
+            if ("sun_allergy".equals(data.negativeEffect.id)) handleSunAllergy(player);
+            if ("noise_maker".equals(data.negativeEffect.id)) handleNoiseMaker(player);
+            if ("storm_maker".equals(data.negativeEffect.id)) handleStormMaker(player);
+            if ("fragile".equals(data.negativeEffect.id)) {
+                // 负跳跃
+                player.addStatusEffect(new StatusEffectInstance(StatusEffects.JUMP_BOOST, 20, -1, false, false, false));
             }
         }
     }
@@ -371,5 +374,19 @@ public class EverySingleDay implements ModInitializer {
         public int nextSleepwalkCheck = 0;
         public int nextConfusionCheck = 0;
         public BlockPos lastSleepPos = null;
+    }
+
+    public static void checkDailyReset(ServerWorld world) {
+        long now = world.getTimeOfDay() / 24000L;
+        for (ServerPlayerEntity sp : world.getPlayers()) {
+            PlayerDailyEffects data = playerEffects.get(sp.getUuid());
+            if (data == null) {            // 新玩家
+                initializePlayerEffects(sp);
+                continue;
+            }
+            if (data.lastDay != now) {     // 跨天
+                generateNewDailyEffectsStatic(sp, now);
+            }
+        }
     }
 }
