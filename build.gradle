@@ -21,6 +21,9 @@ dependencies {
 
     // Fabric API
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    // 确保包含网络API
+    include(modImplementation("net.fabricmc.fabric-api:fabric-networking-api-v1:1.0.0+"))
 }
 
 processResources {

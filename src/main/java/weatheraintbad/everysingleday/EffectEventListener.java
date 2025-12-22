@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.entity.ExperienceOrbEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -46,6 +47,13 @@ public class EffectEventListener {
 
     /* ===== 注册全部事件 ===== */
     public static void register() {
+        // 注册玩家登录事件 - 在玩家加入时发送数据
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            server.execute(() -> {
+                EverySingleDay.onPlayerLoggedIn(handler.player);
+            });
+        });
+
         /* 1. 每 tick 大轮询（magnet / sun_allergy / noise_maker / storm_maker / elemental_shield / water / shadow_step）*/
         ServerTickEvents.END_WORLD_TICK.register(world -> {
             if (!(world instanceof ServerWorld)) return;

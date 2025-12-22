@@ -4,6 +4,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -20,14 +22,24 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import weatheraintbad.everysingleday.api.EverySingleDayAPI;
 
 import java.util.*;
 
 public class EverySingleDay implements ModInitializer {
     public static final String MOD_ID = "everysingleday";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+
+    // 网络包标识
+    public static final Identifier DAILY_EFFECTS_SYNC_PACKET =
+            new Identifier(MOD_ID, "daily_effects_sync");
+    public static final Identifier REQUEST_EFFECTS_PACKET =
+            new Identifier("stardewhud", "request_daily_effects");
 
     /* ---------- 效果列表（全部使用语言 key） ---------- */
     public static final List<DailyEffect> POSITIVE_EFFECTS = Arrays.asList(
@@ -83,6 +95,7 @@ public class EverySingleDay implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        EverySingleDayAPI api = EverySingleDayAPI.getInstance();
 
         EffectEventListener.register();
 
@@ -95,9 +108,6 @@ public class EverySingleDay implements ModInitializer {
         INSTANCE = this;
         LOGGER.info("Every Single Day mod initialized!");
 
-        ServerTickEvents.START_SERVER_TICK.register(this::onServerTick);
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
-                initializePlayerEffects(handler.getPlayer()));
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, damageSource) -> {
             if (entity instanceof ServerPlayerEntity player)
                 handlePlayerDeath(player, damageSource);
@@ -107,6 +117,65 @@ public class EverySingleDay implements ModInitializer {
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
                 EverySingleDayCommand.register(dispatcher));
+
+        // 初始化网络
+        initializeNetworking();
+    }
+
+    /* ============= 网络同步功能 ============= */
+    private void initializeNetworking() {
+        // 监听来自其他模组的请求（如StardewHUD）
+        ServerPlayNetworking.registerGlobalReceiver(REQUEST_EFFECTS_PACKET,
+                (server, player, handler, buf, responseSender) -> {
+                    server.execute(() -> {
+                        LOGGER.debug("收到来自 {} 的每日效果请求", player.getName().getString());
+                        sendDailyEffectsToClient(player);
+                    });
+                });
+
+        LOGGER.info("已初始化EverySingleDay网络同步功能");
+    }
+
+    // 发送每日效果数据到客户端
+    public static void sendDailyEffectsToClient(ServerPlayerEntity player) {
+        PlayerDailyEffects data = playerEffects.get(player.getUuid());
+        if (data == null) {
+            // 如果没有数据，初始化并发送
+            initializePlayerEffects(player);
+            data = playerEffects.get(player.getUuid());
+        }
+
+        if (data != null) {
+            NbtCompound nbt = new NbtCompound();
+            nbt.putString("positive_effect",
+                    data.positiveEffect != null ? data.positiveEffect.id : "");
+            nbt.putString("negative_effect",
+                    data.negativeEffect != null ? data.negativeEffect.id : "");
+            nbt.putLong("last_day", data.lastDay);
+
+            PacketByteBuf buf = PacketByteBufs.create();
+            buf.writeNbt(nbt);
+
+            ServerPlayNetworking.send(player, DAILY_EFFECTS_SYNC_PACKET, buf);
+
+            LOGGER.debug("已发送每日效果数据给 {}: 正面={}, 负面={}, 天数={}",
+                    player.getName().getString(),
+                    data.positiveEffect != null ? data.positiveEffect.id : "无",
+                    data.negativeEffect != null ? data.negativeEffect.id : "无",
+                    data.lastDay);
+        }
+    }
+
+    // 在玩家登录时发送数据
+    public static void onPlayerLoggedIn(ServerPlayerEntity player) {
+        // 确保数据初始化
+        PlayerDailyEffects data = playerEffects.get(player.getUuid());
+        if (data == null) {
+            initializePlayerEffects(player);
+        }
+
+        // 发送数据到客户端
+        sendDailyEffectsToClient(player);
     }
 
     /* ===================== 业务逻辑 ===================== */
@@ -124,7 +193,11 @@ public class EverySingleDay implements ModInitializer {
         long now = server.getOverworld().getTimeOfDay() / 24000L;
         server.getPlayerManager().getPlayerList().forEach(p -> {
             PlayerDailyEffects data = playerEffects.computeIfAbsent(p.getUuid(), u -> new PlayerDailyEffects());
-            if (data.lastDay != now) generateNewDailyEffects(p, now);
+            if (data.lastDay != now) {
+                generateNewDailyEffects(p, now);
+                // 发送数据到客户端
+                sendDailyEffectsToClient(p);
+            }
         });
     }
 
@@ -137,6 +210,8 @@ public class EverySingleDay implements ModInitializer {
         playerEffects.put(player.getUuid(), data);
         applyEffects(player, data);
         sendDailyEffectsMessage(player, data, day);
+        // 发送数据到客户端
+        sendDailyEffectsToClient(player);
     }
 
     void generateNewDailyEffects(ServerPlayerEntity player, long day) {
@@ -147,6 +222,8 @@ public class EverySingleDay implements ModInitializer {
         data.negativeEffect = randomOf(NEGATIVE_EFFECTS);
         applyEffects(player, data);
         sendDailyEffectsMessage(player, data, day);
+        // 发送数据到客户端
+        sendDailyEffectsToClient(player);
     }
 
     public void clearOldEffects(ServerPlayerEntity player) {
